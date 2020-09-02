@@ -11,37 +11,34 @@ import {
 } from '@angular/material'
 
 import { AppComponent } from './app.component';
-import { ShortenPipe } from './shorten.pipe';
-import { FilterPipe } from './filter.pipe';
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
 import { AppRoutingModule } from './app-routing.module';
-import { PipesComponent } from './pipes/pipes.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { AboutModule } from './about/about.module';
+import { HomeModule } from './home/home.module';
+import { PipeModule } from './pipes/pipes.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ShortenPipe,
-    FilterPipe,
-    HomeComponent,
-    AboutComponent,
-    PipesComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    NoopAnimationsModule, 
+    NoopAnimationsModule,
     MatToolbarModule,
     MatIconModule,
     MatCardModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    HomeModule,
+    AboutModule,
+    PipeModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports:[]
 })
 export class AppModule { }

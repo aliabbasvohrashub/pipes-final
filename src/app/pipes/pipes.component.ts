@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PipesComponent implements OnInit {
   ngOnInit(): void {
-    throw new Error("Method not implemented.");
   }
   appStatus = new Promise((resolve, reject) => {
     setTimeout(() => {
