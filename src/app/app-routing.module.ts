@@ -17,6 +17,10 @@ const routes: Routes =
     {
       path: 'pipes',
       loadChildren: () => import('./pipes/pipes.module').then(m => m.PipeModule)
+    },
+    {
+      path: 'cascade',
+      loadChildren: () => import('./forms/cascade-dropdowns.module').then(m => m.CascadeDropdownsModule)
     }
   ]
 
@@ -30,4 +34,5 @@ const routes: Routes =
     )],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

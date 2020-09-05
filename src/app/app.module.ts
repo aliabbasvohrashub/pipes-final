@@ -16,11 +16,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AboutModule } from './about/about.module';
 import { HomeModule } from './home/home.module';
 import { PipeModule } from './pipes/pipes.module';
+import { CascadeDropdownsModule } from './forms/cascade-dropdowns.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -35,10 +36,11 @@ import { PipeModule } from './pipes/pipes.module';
     MatProgressSpinnerModule,
     HomeModule,
     AboutModule,
-    PipeModule
+    PipeModule,
+    CascadeDropdownsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  exports:[]
+  exports: []
 })
 export class AppModule { }
