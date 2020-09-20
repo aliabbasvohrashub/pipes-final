@@ -16,12 +16,16 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AboutModule } from './about/about.module';
 import { HomeModule } from './home/home.module';
 import { PipeModule } from './pipes/pipes.module';
+import { RxModule } from './rx/rx.module'; 
 import { CascadeDropdownsModule } from './forms/cascade-dropdowns.module';
+import { PageNotFoundComponent } from './page-not-found.component';
+import { CheckRoleGuardGuard } from './check-role-guard.guard';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PageNotFoundComponent 
   ],
   imports: [
     BrowserModule,
@@ -37,9 +41,10 @@ import { CascadeDropdownsModule } from './forms/cascade-dropdowns.module';
     HomeModule,
     AboutModule,
     PipeModule,
+    RxModule,
     CascadeDropdownsModule
   ],
-  providers: [],
+  providers: [CheckRoleGuardGuard],
   bootstrap: [AppComponent],
   exports: []
 })

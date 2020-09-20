@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { trigger, state, style, transition, animate, keyframes, group } from '@angular/animations';
+import { FormControl } from '@angular/forms';
+import { combineLatest, Observable, of, merge, fromEvent } from 'rxjs';
+import { startWith, map, tap, mapTo, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-about',
@@ -105,10 +108,76 @@ import { trigger, state, style, transition, animate, keyframes, group } from '@a
     ]),
   ]
 })
-export class AboutComponent {
+export class AboutComponent implements OnInit, AfterViewInit {
+  ngOnInit(): void {
+    //this.test();
+  }
   state = 'normal';
   wildState = 'normal';
   list = ['Milk', 'Sugar', 'Bread'];
+  inputValue = '';
+  disableButtonAddItem: boolean = true;
+  users = [
+    { name: 'John', id: 1 },
+    { name: 'Andrew', id: 2 },
+    { name: 'Anna', id: 3 },
+    { name: 'Iris', id: 4 },
+  ];
+
+  blackListedUsers = new FormControl([]);
+  selectedUserId = new FormControl(null);
+  allowBlackListedUsers = new FormControl(false);
+
+  /* search code starts */
+
+  /* old implementation
+  
+  query = '';
+   isSearchInputVisible = false;
+ 
+   showSearchInput(event: MouseEvent) {
+     event.stopPropagation();
+     this.isSearchInputVisible = true;
+   }
+ 
+   @HostListener('document:click')
+   hideSearchInput() {
+     if (this.query === '') {
+       this.isSearchInputVisible = false;
+     }
+   }
+ */
+  @ViewChild('btn', { static: true }) buttonRef: ElementRef<HTMLButtonElement>;
+  query = '';
+  isSearchInputVisible$: Observable<boolean> = of(false);
+
+
+  ngAfterViewInit() {
+    this.isSearchInputVisible$ = merge(
+      fromEvent(this.buttonRef.nativeElement, 'click')
+        .pipe(
+          tap(e => e.stopPropagation()), mapTo(true)
+        ),
+      fromEvent(document.body, 'click')
+        .pipe(
+          filter(() => this.query === ''), mapTo(false)
+        )
+    )
+      .pipe(
+        startWith(false)
+      );
+  }
+  /* search code ends */
+
+  isDisabled$ = combineLatest([
+    this.allowBlackListedUsers.valueChanges.pipe(startWith(false)),
+    this.blackListedUsers.valueChanges.pipe(startWith([])),
+    this.selectedUserId.valueChanges.pipe(startWith(null), map(id => +id)),
+  ]).pipe(
+    map(
+      ([allowBlackListed, blackList, selected]) => !allowBlackListed && blackList.includes(selected),
+    ),
+  );
 
   onAnimate() {
     this.state == 'normal' ? this.state = 'highlighted' : this.state = 'normal';
@@ -121,6 +190,18 @@ export class AboutComponent {
 
   onAdd(item) {
     this.list.push(item);
+    this.inputValue = ''
+  }
+
+  inputValid(): void {
+    if (this.inputValue === '') {
+      console.log('button set to true');
+      this.disableButtonAddItem = true;
+    }
+    else {
+      console.log('button set to false');
+      this.disableButtonAddItem = false;
+    }
   }
 
   onDelete(item) {
@@ -134,4 +215,41 @@ export class AboutComponent {
   animationEnded(event) {
     console.log(event);
   }
+
+  test() {
+    console.log('test called');
+    
+    let object = [{ a: 1, b: 2 }];
+    let arr = [1, 2, 3, 4, 5];
+
+    Array.prototype.map = function (projectionFunction) {
+      let r = [];
+      this.forEach(element => {
+        r.push(projectionFunction(element, this.length - 1, this))
+      });
+      return r;
+    }
+
+    arr.map(x => x + 2);
+    console.log(arr);
+    
+    Array.prototype.concat = function () {
+      var results = [];
+      this.forEach(function (subArray) {
+        results.push.apply(results, subArray);
+      });
+
+      return results;
+    };
+
+
+    for (const key in object) {
+      if (Object.prototype.hasOwnProperty.call(object, key)) {
+        const element = object[key];
+        console.log(element);
+      }
+    }
+  }
+
+
 }

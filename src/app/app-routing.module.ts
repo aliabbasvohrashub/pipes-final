@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules, NoPreloading, PreloadingStrategy } from '@angular/router'
 import { CustomPreloadingService } from './custom-preloading.service';
+import { PageNotFoundComponent } from './page-not-found.component';
+import { CheckRoleGuardGuard } from './check-role-guard.guard';
 
 const routes: Routes =
   [
@@ -20,7 +22,15 @@ const routes: Routes =
     },
     {
       path: 'cascade',
+      canActivate: [CheckRoleGuardGuard],
       loadChildren: () => import('./forms/cascade-dropdowns.module').then(m => m.CascadeDropdownsModule)
+    },
+    {
+      path: 'rx',
+      loadChildren: () => import('./rx/rx.module').then(x => x.RxModule)
+    },
+    {
+      path: 'notfound', component: PageNotFoundComponent
     }
   ]
 

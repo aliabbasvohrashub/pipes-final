@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { AboutComponent } from "./about.component";
 import { RouterModule, Routes } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 
 const routes: Routes = [
@@ -17,6 +17,7 @@ const routes: Routes = [
     declarations: [AboutComponent],
     imports: [
         CommonModule,
+        FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
         RouterModule.forChild(routes)],

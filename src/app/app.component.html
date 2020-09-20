@@ -27,7 +27,9 @@
   <button mat-button routerLink="/about">About</button>
   <button mat-button routerLink="/pipes">Pipes</button>
   <button mat-button routerLink="/cascade">Cascade</button>
+  <button mat-button routerLink="/rx">Rx</button>
 </mat-toolbar>
 
 
 <router-outlet></router-outlet>
+<div *ngIf="showLoadingIndicator" class="spinner">{{showLoadingIndicator}}</div>

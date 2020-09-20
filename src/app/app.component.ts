@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  showLoadingIndicator = true;
+  constructor(private _router: Router) {
+    this._router.events.subscribe((routerEvent: RouterEvent) => {
+      if (routerEvent instanceof NavigationStart) {
+        this.showLoadingIndicator = true;
+        console.log(`showLoadingIndicator changed to ${this.showLoadingIndicator}`);
+      }
+
+      if (routerEvent instanceof NavigationEnd ||
+        routerEvent instanceof NavigationCancel ||
+        routerEvent instanceof NavigationError) {
+        this.showLoadingIndicator = false;
+      }
+    });
+  }
+
+
   // appStatus = new Promise((resolve, reject) => {
   //   setTimeout(() => {
   //     resolve('stable');

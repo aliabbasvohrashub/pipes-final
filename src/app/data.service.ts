@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 import { Product } from './product';
+import { error } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class DataService {
 
   }
 
-  public sendGetRequestToUrl(url: string) {
+  public sendGetRequestToUrl(url: string) { 
     return this.http
       .get<Product[]>(url, { observe: "response" })
       .pipe(
@@ -33,6 +34,19 @@ export class DataService {
   public SendGetRequest() {
     const options = { params: new HttpParams({ fromString: "_page=1&_limit=20" }), observe: "response" };
     const abcdefg = { params: new HttpParams({ fromString: "_page=1&_limit=20" }), observe: "response" };
+
+
+    // let s = this.http
+    // .get<Product[]>(this.apiURL, { params: new HttpParams({ fromString: "_page=1&_limit=20" }), observe: "response" })
+    // .subscribe( 
+    //   res => {
+          
+    //   },
+    //   error => {
+
+    //   } 
+    //   );
+
 
     return this.http
       .get<Product[]>(this.apiURL, { params: new HttpParams({ fromString: "_page=1&_limit=20" }), observe: "response" })
