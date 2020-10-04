@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { of, from, Subject } from 'rxjs';
-import { tap, map, filter, reduce, flatMap, max, groupBy, find, scan, concatAll, mapTo } from 'rxjs/operators';
+import { of, from, Subject, fromEvent } from 'rxjs';
+import { tap, map, filter, reduce, flatMap, max, groupBy, find, scan, concatAll, mapTo, mergeMap } from 'rxjs/operators';
 import { title } from 'process';
 import { flatten } from '@angular/compiler';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-rx',
@@ -21,7 +22,79 @@ export class RxComponent implements OnInit {
     //this.flattenments();
     //this.arrayLists();
     //this.subjectExplore();
-    this.concatMapEx();
+    //this.concatMapEx();
+    //this.combineLists();
+
+    let btnClicks = fromEvent(document.getElementById('btn'), 'click');
+
+    btnClicks
+      .pipe(
+        tap(x => {
+          console.log(x);
+        })
+      )
+      .subscribe();
+
+
+  }
+  combineLists() {
+    var lists = [
+      {
+        "id": 5434364,
+        "name": "New Releases"
+      },
+      {
+        "id": 65456475,
+        name: "Thrillers"
+      }
+    ],
+      videos = [
+        {
+          "listId": 5434364,
+          "id": 65432445,
+          "title": "The Chamber"
+        },
+        {
+          "listId": 5434364,
+          "id": 675465,
+          "title": "Fracture"
+        },
+        {
+          "listId": 65456475,
+          "id": 70111470,
+          "title": "Die Hard"
+        },
+        {
+          "listId": 65456475,
+          "id": 654356453,
+          "title": "Bad Boys"
+        }
+      ];
+
+    let s = [];
+    s = lists.map(x => [{
+      name: x.name,
+      vid: videos
+        .filter(y => y.listId === x.id)
+        .map(vid => [{
+          id: vid.id,
+          title: vid.title
+        }])
+    }]);
+
+    console.log(s);
+
+    s = lists.map(x => [{ id: x.id, name: x.name }]);
+    // from(lists).pipe(
+    //   map(x => [{ dd: x.id, nm: x.name }])
+    // );
+
+
+
+
+
+    console.log(s);
+    console.log(lists);
   }
   concatMapEx() {
     var movieLists = [

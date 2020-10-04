@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -49,7 +50,7 @@ export class FormsDataService {
     ].filter(x => x.countryId == countryId);
   }
 
-  public GetCities(stateId: string = "0") { 
+  public GetCities(stateId: string = "0") {
     return [
       { stateId: "0", cityId: "0", cityName: "city0" },
       { stateId: "0", cityId: "1", cityName: "city1" },
@@ -101,3 +102,16 @@ export class FormsDataService {
     ].filter(x => x.stateId == stateId);
   }
 }
+
+
+// @Injectable({
+//   providedIn: 'root'
+// })
+// export class AnotherService {
+//   constructor(private httpClient: HttpClient) {
+//     // this.httpClient.get('url')
+//     //   .map((res: Response) => {
+//     //     res.json();
+//     //   });
+//   }
+// }
